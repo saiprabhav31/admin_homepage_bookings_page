@@ -1,0 +1,48 @@
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body, html {
+  font-family: Arial, sans-serif;
+  background-color: #e8d7f1;
+  height: 100%; /* Full height */
+  overflow: hidden; /* Disable scrolling */
+}
+
+.app {
+  display: flex;
+  height: 100vh; /* Full height */
+}
+
+.main-content {
+  padding: 20px;
+  flex: 1;
+  overflow-y: auto; /* Allow scrolling inside content if needed */
+}
+
+.booking-btn {
+  background-color: #6c83f1;
+  color: #fff;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 12px;
+  font-size: 16px;
+  cursor: pointer;
+  margin-bottom: 20px;
+}
+
+.navbar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%; 
+  height: 60px;
+  background-color: #2e1e4d;
+  color: #fff;
+  display: flex;
+  align-items: center;
+  padding: 0 20px;
+  z-index: 1000; /* Ensure navbar stays on top */
+}

@@ -1,0 +1,39 @@
+.booking-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding-left: 420px; /* Ensure content starts after sidebar */
+}
+
+.booking-card {
+  background-color: #2d1e46;
+  opacity: 0.99;
+  color: #fff;
+  padding: 15px;
+  border-radius: 12px;
+  box-shadow: 2px 2px 8px rgba(0, 0, 0, 0.2);
+  width: auto;
+}
+
+.vehicle-info {
+  display: flex;
+  justify-content: space-between;
+  font-weight: bold;
+}
+
+.booking-details {
+  font-size: 14px;
+  margin-top: 5px;
+}
+
+.provider {
+  color: #ccc;
+  font-size: 14px;
+  margin-top: 5px;
+}
+
+.price {
+  color: #ffda00;
+  font-weight: bold;
+  margin-top: 5px;
+}

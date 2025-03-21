@@ -1,0 +1,82 @@
+.sidebar {
+  width: 400px;
+  background-color: #e6d8f5;
+  padding: 20px;
+  color: #fff;
+  height: calc(100vh - 60px); /* Adjust height to fit below navbar */
+  position: fixed;
+  top: 20px; /* Place below the navbar */
+  left: 0;
+  overflow-y: auto; /* Allow sidebar scrolling if needed */
+}
+
+
+
+.calendar h4 {
+  font-size: 16px;
+  margin-bottom: 10px;
+}
+
+.days {
+  display: flex;
+  gap: 10px;
+}
+
+.day-name {
+  color: #aaa;
+}
+
+.dates {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 5px;
+  margin-top: 10px;
+}
+
+.date {
+  padding: 5px;
+  border-radius: 4px;
+  text-align: center;
+}
+
+.date.active {
+  background-color: #6c83f1;
+  color: #fff;
+}
+
+.filters {
+  margin-top: 20px;
+}
+
+
+.sidebar {
+  width: 400px;
+  padding: 20px;
+
+  border-right: 1px solid #ddd;
+}
+
+.filter-btn {
+  width: 100%;
+  padding: 10px;
+  margin: 5px 0;
+  border: none;
+  background-color:  #271944BF;
+  
+  color: #fff;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  border-radius: 4px;
+  font-size: 16px;
+}
+
+.filter-btn:hover {
+  background-color: #b768e5;
+}
+
+.filter-btn:active {
+  background-color: #b768e5;
+  transform: scale(0.98);
+}
+
+
