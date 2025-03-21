@@ -1,11 +1,14 @@
 import React from 'react';
-import blacklogo from "./blacklogo.png";
+import blacklogo from "../blacklogo.png";
 import "./mainbody.css";
+import { useNavigate } from "react-router-dom";
+
 
 
 function Mainbody() {
-  console.log("Mainbody component rendered");
+  const navigate = useNavigate(); 
   return (
+
     <div className="body-container">
       <div className="content">
         {/* Left Section - Logo and Title */}
@@ -17,9 +20,9 @@ function Mainbody() {
 
         {/* Right Section - Buttons */}
         <div className="right-section">
-          <button className="main-button">My Vehicles</button>
-    <button className="main-button">Bookings</button>
-          <button className="main-button">Drivers List</button>
+          <button onClick={()=>navigate('admincarspage')} className="main-button">My Vehicles</button>
+          <button onClick={()=>navigate('adminbookings')} className="main-button">My Booking  </button>
+          <button  onClick={()=>navigate('admindriverpage')} className="main-button">Drivers List</button>
         </div>
       </div>
     </div>

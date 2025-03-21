@@ -1,5 +1,5 @@
 import React from "react";
-import logo from "./greylogo.png";
+import logo from "../greylogo.png";
 import "./nav.css";
 function Nav() {  
   console.log("Nav component rendered");  
