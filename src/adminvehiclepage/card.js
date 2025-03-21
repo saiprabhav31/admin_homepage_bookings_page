@@ -14,12 +14,16 @@ function Card(props) {
     <div className="card">
       <h2>{props.name}</h2>
       <img src={props.image} alt={props.name} />
+      <p>Type: {props.type}</p>
       <p>Price: {props.price}</p>
       <p>Availability: {props.availability}</p>
       <button className="details-btn">View Details</button>
       <span className="rating">{props.rating}</span>
+
     </div>
   );
 }
 
 export default Card;
+
+

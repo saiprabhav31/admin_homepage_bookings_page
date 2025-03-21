@@ -25,7 +25,7 @@ function App() {
         <Route path="/admindriverpage" element={<Admindriverpage />} />
         <Route path="/admincarspage" element={<Admincarspage />} />
         <Route path="/admindriverpage/adddriverpage" element={<AddDriver />} />
-        <Route path="admincarspage/entercardetails" element={<AddVehicle />} />
+        <Route path="/entercardetails" element={<AddVehicle />} />
       </Routes>
     </Router>
   );

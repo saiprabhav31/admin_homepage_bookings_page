@@ -1,48 +1,31 @@
 import "./adminvehicle.css";
-import React from "react";
+import React, { useState } from "react";
 
-function Filter() {
+function Filter({ onFilterChange }) {
+  const [selectedFilter, setSelectedFilter] = useState("All");
+
+  const handleFilterChange = (event) => {
+    const selectedValue = event.target.value;
+    console.log("🔥 Filter Selected in Filter.js:", selectedValue);
+    setSelectedFilter(selectedValue);
+    onFilterChange(selectedValue); // ✅ Send filter to Admincarspage
+  };
+
   return (
-    <div class="filter-container">
-      <label class="filter-option">
-        <input type="radio" name="filter" checked />
-        <span class="circle"></span> All
-      </label>
-
-      <label class="filter-option">
-        <input type="radio" name="filter" />
-        <span class="circle"></span> Bikes
-      </label>
-
-      <label class="filter-option">
-        <input type="radio" name="filter" />
-        <span class="circle"></span> Price
-      </label>
-
-      <label class="filter-option">
-        <input type="radio" name="filter" />
-        <span class="circle"></span> Rating
-      </label>
-
-      <label class="filter-option">
-        <input type="radio" name="filter" />
-        <span class="circle"></span> Cars
-      </label>
-
-      <label class="filter-option">
-        <input type="radio" name="filter" />
-        <span class="circle"></span> Vans
-      </label>
-
-      <label class="filter-option">
-        <input type="radio" name="filter" />
-        <span class="circle"></span> Available
-      </label>
-
-      <label class="filter-option">
-        <input type="radio" name="filter" />
-        <span class="circle"></span> Not available
-      </label>
+    <div className="filter-container">
+      {["All", "Cars", "Bikes", "Available", "Not available", "Price", "Rating"].map((option) => (
+        <label key={option} className="filter-option">
+          <input
+            type="radio"
+            name="filter"
+            value={option}
+            checked={selectedFilter === option}
+            onChange={handleFilterChange}
+          />
+          <span className={`circle ${selectedFilter === option ? "checked" : ""}`}></span>
+          {option}
+        </label>
+      ))}
     </div>
   );
 }
