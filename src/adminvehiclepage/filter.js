@@ -13,7 +13,15 @@ function Filter({ onFilterChange }) {
 
   return (
     <div className="filter-container">
-      {["All", "Cars", "Bikes", "Available", "Not available", "Price", "Rating"].map((option) => (
+      {[
+        "All",
+        "Cars",
+        "Bikes",
+        "Available",
+        "Not available",
+        "Price",
+        "Rating",
+      ].map((option) => (
         <label key={option} className="filter-option">
           <input
             type="radio"
@@ -22,7 +30,9 @@ function Filter({ onFilterChange }) {
             checked={selectedFilter === option}
             onChange={handleFilterChange}
           />
-          <span className={`circle ${selectedFilter === option ? "checked" : ""}`}></span>
+          <span
+            className={`circle ${selectedFilter === option ? "checked" : ""}`}
+          ></span>
           {option}
         </label>
       ))}

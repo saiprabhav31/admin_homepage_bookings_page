@@ -1,7 +1,7 @@
 .booking-list {
   display: flex;
   flex-direction: column;
-  gap: 12px;
+  gap: 20px;
   padding-left: 420px; /* Ensure content starts after sidebar */
 }
 

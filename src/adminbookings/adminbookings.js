@@ -40,6 +40,7 @@ function Adminbookingspage() {
     }
     
     
+    
   ];
 
   return (
@@ -47,7 +48,7 @@ function Adminbookingspage() {
       
       <Adminbookingssidebar />
       <div className="main-content">
-        <button className="booking-btn">Bookings</button>
+
         <AdminbookingList bookings={bookings} />
       </div>
     </div>

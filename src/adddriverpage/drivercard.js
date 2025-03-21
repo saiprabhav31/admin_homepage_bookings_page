@@ -1,35 +1,54 @@
-
 import React from "react";
-import "./adddriver.css"
+import "./adddriver.css";
 
-function DriverCard({ driver }) {
+function DriverCard(props) {
+  if (props.isAddCard) {
+    return (
+      <div className="driver-card add-card" onClick={props.onAdd}>
+        <h2>+ Add Driver</h2>
+      </div>
+    );
+  }
+
   return (
     <div className="driver-card">
-      <img src={driver.image} alt={driver.name} className="driver-image" />
-      <div className="driver-details">
-        <p>
-          <strong>Driver name:</strong> {driver.name}
-        </p>
-        <p>
-          <strong>Driver Age:</strong> {driver.age}
-        </p>
-        <p>
-          <strong>Driver Address:</strong> {driver.address}
-        </p>
-        <p>
-          <strong>Driver Phone No:</strong> {driver.phone}
-        </p>
+      <img
+        src={props.image || "Images/default-driver.png"}
+        alt={props.name}
+        className="driver-image"
+      />
+      <div className="driver-content">
+        <div className="driver-details">
+          <p>
+            <strong>Name:</strong> {props.name}
+          </p>
+          <p>
+            <strong>Age:</strong> {props.age}
+          </p>
+          <p>
+            <strong>Phone:</strong> {props.phone}
+          </p>
+        </div>
+        <div className="driver-info">
+          <p>
+            <strong>License:</strong> {props.license}
+          </p>
+          <p>
+            <strong>Vehicle ID:</strong> {props.vehicleId}
+          </p>
+          <p>
+            <strong>Driver ID:</strong> {props.driverId}
+          </p>
+        </div>
       </div>
-      <div className="driver-info">
-        <p>
-          <strong>License No:</strong> {driver.license}
-        </p>
-        <p>
-          <strong>Vehicle Id:</strong> {driver.vehicleId}
-        </p>
-        <p>
-          <strong>Driver Id:</strong> {driver.driverId}
-        </p>
+      <div className="card-buttons">
+        <button className="details-btn">Details</button>
+        <button className="edit-btn" onClick={props.onEdit}>
+          Edit
+        </button>
+        <button className="delete-btn" onClick={props.onDelete}>
+          Delete
+        </button>
       </div>
     </div>
   );

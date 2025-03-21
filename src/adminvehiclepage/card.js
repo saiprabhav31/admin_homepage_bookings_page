@@ -17,13 +17,18 @@ function Card(props) {
       <p>Type: {props.type}</p>
       <p>Price: {props.price}</p>
       <p>Availability: {props.availability}</p>
-      <button className="details-btn">View Details</button>
+      <div className="card-buttons">
+        <button className="details-btn">View Details</button>
+        <button className="edit-btn" onClick={() => props.onEdit(props)}>
+          Edit
+        </button>
+        <button className="delete-btn" onClick={() => props.onDelete(props)}>
+          Delete
+        </button>
+      </div>
       <span className="rating">{props.rating}</span>
-
     </div>
   );
 }
 
 export default Card;
-
-

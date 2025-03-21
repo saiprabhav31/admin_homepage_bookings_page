@@ -1,42 +1,91 @@
 import "./adddriver.css";
-import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import React, { useState, useEffect } from "react";
+import { useNavigate, Routes, Route } from "react-router-dom";
 import driversData from "./driversdata";
 import DriverCard from "./drivercard";
+import AddDriver from "../adddriverdetails/adddriver";
 
 function Admindriverpage() {
-  const navigate=useNavigate();
-  const [drivers, setDrivers] = useState(driversData);
+  const navigate = useNavigate();
+  const [drivers, setDrivers] = useState(() => {
+    const savedDrivers = localStorage.getItem("drivers");
+    return savedDrivers ? JSON.parse(savedDrivers) : driversData;
+  });
+  const [editingDriver, setEditingDriver] = useState(null);
 
-  const addDriver = () => {
-    const newDriver = {
-      id: drivers.length + 1,
-      name: "New Driver",
-      age: "N/A",
-      address: "Unknown",
-      phone: "0000000000",
-      license: "XXXX0000",
-      vehicleId: "00000",
-      driverId: (Math.random() * 100000).toFixed(0),
-      image: "Images/default-driver.png",
-    };
-    setDrivers([...drivers, newDriver]);
+  useEffect(() => {
+    localStorage.setItem("drivers", JSON.stringify(drivers));
+  }, [drivers]);
+
+  const handleAddDriver = () => {
+    setEditingDriver(null);
+    navigate("/admindriverpage/adddriverpage");
+  };
+
+  const handleNewDriver = (newDriver) => {
+    if (editingDriver) {
+      // Update existing driver
+      setDrivers((prevDrivers) => {
+        const updatedDrivers = prevDrivers.map((d) =>
+          d.driverId === editingDriver.driverId ? newDriver : d
+        );
+        localStorage.setItem("drivers", JSON.stringify(updatedDrivers));
+        return updatedDrivers;
+      });
+    } else {
+      // Add new driver
+      setDrivers((prevDrivers) => {
+        const updatedDrivers = [...prevDrivers, newDriver];
+        localStorage.setItem("drivers", JSON.stringify(updatedDrivers));
+        return updatedDrivers;
+      });
+    }
+    setEditingDriver(null);
+  };
+
+  const handleEditDriver = (driver) => {
+    setEditingDriver(driver);
+    navigate("/admindriverpage/adddriverpage");
+  };
+
+  const handleDeleteDriver = (driver) => {
+    if (window.confirm("Are you sure you want to delete this driver?")) {
+      setDrivers((prevDrivers) => {
+        const updatedDrivers = prevDrivers.filter((d) => d !== driver);
+        localStorage.setItem("drivers", JSON.stringify(updatedDrivers));
+        return updatedDrivers;
+      });
+    }
   };
 
   return (
-    <div className="main">
-    
-      <div className="driver-container">
-        {drivers.map((driver) => (
-          <DriverCard key={driver.id} driver={driver} />
-        ))}
-        {/* <div className="add-driver-card" onClick={addDriver}> */}
-        <div className="add-driver-card" onClick={()=>navigate('adddriverpage')}>
-          <div className="add-icon">+</div>
-          <p>Add Driver</p>
-        </div>
-      </div>
-    </div>
+    <Routes>
+      <Route
+        path="/"
+        element={
+          <div className="driver-container">
+            {drivers.map((driver, index) => (
+              <DriverCard
+                key={index}
+                {...driver}
+                onEdit={() => handleEditDriver(driver)}
+                onDelete={() => handleDeleteDriver(driver)}
+              />
+            ))}
+            <DriverCard isAddCard={true} onAdd={handleAddDriver} />
+          </div>
+        }
+      />
+      <Route
+        path="/adddriverpage"
+        element={
+          <AddDriver
+            onAddDriver={handleNewDriver}
+            editingDriver={editingDriver}
+          />
+        }
+      />
+    </Routes>
   );
 }
 

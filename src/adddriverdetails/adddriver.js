@@ -1,7 +1,9 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import "./adddriverdetails.css";
 
-const AddDriver = () => {
+const AddDriver = ({ onAddDriver, editingDriver }) => {
+  const navigate = useNavigate();
   const [formData, setFormData] = useState({
     name: "",
     age: "",
@@ -10,8 +12,14 @@ const AddDriver = () => {
     license: "",
     vehicleId: "",
     driverId: "",
-    photo: null,
+    image: null,
   });
+
+  useEffect(() => {
+    if (editingDriver) {
+      setFormData(editingDriver);
+    }
+  }, [editingDriver]);
 
   const [errors, setErrors] = useState({});
 
@@ -39,20 +47,10 @@ const AddDriver = () => {
       if (!/^\d{10}$/.test(value)) return "Phone must be a 10-digit number.";
       return "";
     },
-    license: (value) => {
-      if (!value) return "License is required.";
-      const licensePattern = /^[A-Z]{2}\d{2}\d{4}\d{7}$/;
-      if (!licensePattern.test(value)) return "Invalid license number.";
-      return "";
-    },
+    license: (value) => (!value ? "License is required." : ""),
     vehicleId: (value) => (!value ? "Vehicle ID is required." : ""),
     driverId: (value) => (!value ? "Driver ID is required." : ""),
-    photo: (value) => {
-      if (!value) return "Photo is required.";
-      if (value && value.type !== "image/jpeg")
-        return "Photo must be a .jpg file.";
-      return "";
-    },
+    image: (value) => (!value && !editingDriver ? "Photo is required." : ""),
   };
 
   const handleSubmit = (e) => {
@@ -75,25 +73,32 @@ const AddDriver = () => {
       return;
     }
 
-    // Clear form on success
-    setFormData({
-      name: "",
-      age: "",
-      address: "",
-      phone: "",
-      license: "",
-      vehicleId: "",
-      driverId: "",
-      photo: null,
-    });
+    // Create new driver object
+    const driverData = {
+      name: formData.name,
+      age: formData.age,
+      address: formData.address,
+      phone: formData.phone,
+      license: formData.license,
+      vehicleId: formData.vehicleId,
+      driverId: formData.driverId,
+      image: formData.image
+        ? URL.createObjectURL(formData.image)
+        : editingDriver
+        ? editingDriver.image
+        : "Images/default-driver.png",
+    };
 
-    // setErrors({});
-    // alert("Form submitted successfully!");
+    // Call the parent component's handler
+    onAddDriver(driverData);
+
+    // Navigate back to the drivers list
+    navigate("/admindriverpage");
   };
 
   return (
     <div className="form-container">
-      <h2>Enter Driver Details</h2>
+      <h2>{editingDriver ? "Edit Driver Details" : "Enter Driver Details"}</h2>
       <form onSubmit={handleSubmit}>
         {[
           {
@@ -141,10 +146,11 @@ const AddDriver = () => {
           {
             label: "Photo",
             type: "file",
-            name: "photo",
+            name: "image",
             placeholder: "Upload photo",
+            accept: "image/*",
           },
-        ].map(({ label, type, name, placeholder }) => (
+        ].map(({ label, type, name, placeholder, accept }) => (
           <div className="form-group" key={name}>
             <label>{label}:</label>
             <div>
@@ -154,12 +160,15 @@ const AddDriver = () => {
                 placeholder={placeholder}
                 value={type === "file" ? undefined : formData[name]}
                 onChange={handleChange}
+                accept={accept}
               />
               {errors[name] && <p className="error">{errors[name]}</p>}
             </div>
           </div>
         ))}
-        <button type="submit">Submit</button>
+        <button type="submit">
+          {editingDriver ? "Update Driver" : "Add Driver"}
+        </button>
       </form>
     </div>
   );

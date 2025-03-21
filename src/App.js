@@ -1,5 +1,5 @@
 import React from "react";
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import pagenotfound from "./pagenotfound/pagenotfound";
 import "./App.css";
 import Nav from "./navbar/nav";
@@ -9,10 +9,8 @@ import Userpayment from "./userpaymentpage/userpayment";
 import Adminbookingspage from "./adminbookings/adminbookings";
 import Admindriverpage from "./adddriverpage/fullpage";
 import Admincarspage from "./adminvehiclepage/adminvehiclemain";
-import AddDriver from "./adddriverdetails/adddriver";
-import AddVehicle from "./addcardetails/addcar";
-function App() {
 
+function App() {
   return (
     <Router>
       <Nav />
@@ -21,11 +19,9 @@ function App() {
         <Route path="/userpickup" element={<Userpickup />} />
         <Route path="/userpayment" element={<Userpayment />} />
         <Route path="/adminbookings" element={<Adminbookingspage />} />
-        <Route path="*" element ={<pagenotfound/>}/>
-        <Route path="/admindriverpage" element={<Admindriverpage />} />
-        <Route path="/admincarspage" element={<Admincarspage />} />
-        <Route path="/admindriverpage/adddriverpage" element={<AddDriver />} />
-        <Route path="/entercardetails" element={<AddVehicle />} />
+        <Route path="/admindriverpage/*" element={<Admindriverpage />} />
+        <Route path="/admincarspage/*" element={<Admincarspage />} />
+        <Route path="*" element={<pagenotfound />} />
       </Routes>
     </Router>
   );
