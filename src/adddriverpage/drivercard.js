@@ -4,7 +4,7 @@ import "./adddriver.css";
 function DriverCard(props) {
   if (props.isAddCard) {
     return (
-      <div className="driver-card add-card" onClick={props.onAdd}>
+      <div className=" add-card" onClick={props.onAdd}>
         <h2>+ Add Driver</h2>
       </div>
     );
@@ -42,7 +42,7 @@ function DriverCard(props) {
         </div>
       </div>
       <div className="card-buttons">
-        <button className="details-btn">Details</button>
+       
         <button className="edit-btn" onClick={props.onEdit}>
           Edit
         </button>

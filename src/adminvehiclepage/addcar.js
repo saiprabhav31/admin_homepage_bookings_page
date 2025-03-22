@@ -6,21 +6,23 @@ function AddCar({ onAddVehicle, editingVehicle }) {
   const navigate = useNavigate();
   const [formData, setFormData] = useState({
     type: "Car",
-    name: "", // This will store vehicle model
-    price: "", // This will store price per day
+    name: "",
+    price: "",
     availability: "Yes",
-    rating: "4.0",
+    rating: "0.0",
     image: "",
-    // Additional details specific to the form
     fuelType: "Petrol",
     seatingCapacity: "",
     registrationPlate: "",
     vehicleId: "",
+    driverName: "",
   });
+  const [imagePreview, setImagePreview] = useState(null);
 
   useEffect(() => {
     if (editingVehicle) {
       setFormData(editingVehicle);
+      setImagePreview(editingVehicle.image);
     }
   }, [editingVehicle]);
 
@@ -29,63 +31,131 @@ function AddCar({ onAddVehicle, editingVehicle }) {
     setFormData((prevState) => ({
       ...prevState,
       [name]: value,
-      // Update the card display fields when related form fields change
-      ...(name === "vehicleModel" && { name: value }),
-      ...(name === "pricePerDay" && { price: value }),
     }));
+  };
+
+  const handleImageUpload = (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      if (file.type === "image/jpeg") {
+        const reader = new FileReader();
+        reader.onloadend = () => {
+          setFormData((prev) => ({
+            ...prev,
+            image: reader.result,
+          }));
+          setImagePreview(reader.result);
+        };
+        reader.readAsDataURL(file);
+      } else {
+        alert("Please upload a JPG image only");
+      }
+    }
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    // Create the card data structure
     const cardData = {
-      type: "Car",
-      name: formData.vehicleModel,
-      price: formData.pricePerDay,
-      availability: "Yes",
-      rating: "4.0",
-      image: formData.photo || "Images/default-car.png",
-      // Additional details
+      type: formData.type,
+      name: formData.name,
+      price: formData.price,
+      availability: formData.availability,
+      rating: formData.rating,
+      image: formData.image || "Images/default-car.png",
       fuelType: formData.fuelType,
       seatingCapacity: formData.seatingCapacity,
       registrationPlate: formData.registrationPlate,
       vehicleId: formData.vehicleId,
+      driverName: formData.driverName,
     };
     onAddVehicle(cardData);
     navigate("/admincarspage");
   };
 
-  const handlePhotoUpload = (e) => {
-    const file = e.target.files[0];
-    if (file && file.type === "image/jpeg") {
-      const imageUrl = URL.createObjectURL(file);
-      setFormData((prev) => ({
-        ...prev,
-        photo: imageUrl,
-        image: imageUrl, // Update both photo and image fields
-      }));
-    } else {
-      alert("Please upload a JPG image only");
-    }
-  };
-
   return (
-    <div className="add-car-container" >
-      <h2>Enter Vehicle Details</h2>
-      <form onSubmit={handleSubmit} className="add-car-form">
+    <div className="form-container">
+      <h2>{editingVehicle ? "Edit Vehicle" : "Add New Vehicle"}</h2>
+      <form onSubmit={handleSubmit}>
         <div className="form-group">
-          <label>Vehicle model :</label>
+          <label>Vehicle Type:</label>
+          <select
+            name="type"
+            value={formData.type}
+            onChange={handleChange}
+            required
+          >
+            <option value="Car">Car</option>
+            <option value="Bike">Bike</option>
+            <option value="Van">Van</option>
+            <option value="Truck">Truck</option>
+          </select>
+        </div>
+
+        <div className="form-group">
+          <label>Vehicle Name:</label>
           <input
             type="text"
-            name="vehicleModel"
-            value={formData.vehicleModel}
+            name="name"
+            value={formData.name}
             onChange={handleChange}
+            placeholder="Enter vehicle name"
             required
           />
         </div>
 
         <div className="form-group">
-          <label>Fuel type :</label>
+          <label>Price per Day:</label>
+          <input
+            type="number"
+            name="price"
+            value={formData.price}
+            onChange={handleChange}
+            placeholder="Enter price per day"
+            required
+          />
+        </div>
+
+        <div className="form-group">
+          <label>Availability:</label>
+          <select
+            name="availability"
+            value={formData.availability}
+            onChange={handleChange}
+            required
+          >
+            <option value="Yes">Available</option>
+            <option value="No">Not Available</option>
+          </select>
+        </div>
+
+        <div className="form-group">
+          <label>Initial Rating:</label>
+          <input
+            type="number"
+            name="rating"
+            value={formData.rating}
+            onChange={handleChange}
+            min="0"
+            max="5"
+            step="0.1"
+            required
+          />
+        </div>
+
+        <div className="form-group">
+          <label>Driver Name:</label>
+          <input
+            type="text"
+            name="driverName"
+            value={formData.driverName}
+            onChange={handleChange}
+            placeholder="Enter driver name"
+            required
+          />
+        </div>
+
+        <div className="form-group">
+          <label>Fuel Type:</label>
           <select
             name="fuelType"
             value={formData.fuelType}
@@ -96,77 +166,65 @@ function AddCar({ onAddVehicle, editingVehicle }) {
             <option value="Diesel">Diesel</option>
             <option value="Electric">Electric</option>
             <option value="Hybrid">Hybrid</option>
-            <option value="CNG">CNG</option>
           </select>
         </div>
 
         <div className="form-group">
-          <label>Seating capacity :</label>
+          <label>Seating Capacity:</label>
           <input
             type="number"
             name="seatingCapacity"
             value={formData.seatingCapacity}
             onChange={handleChange}
-            min="1"
-            max="50"
+            placeholder="Enter seating capacity"
             required
           />
         </div>
 
         <div className="form-group">
-          <label>Price per day :</label>
-          <input
-            type="number"
-            name="pricePerDay"
-            value={formData.pricePerDay}
-            onChange={handleChange}
-            min="0"
-            required
-          />
-        </div>
-
-        <div className="form-group">
-          <label>Registration plate :</label>
+          <label>Registration Plate:</label>
           <input
             type="text"
             name="registrationPlate"
             value={formData.registrationPlate}
             onChange={handleChange}
+            placeholder="Enter registration plate"
             required
           />
         </div>
 
         <div className="form-group">
-          <label>Vehicle Id :</label>
+          <label>Vehicle ID:</label>
           <input
             type="text"
             name="vehicleId"
             value={formData.vehicleId}
             onChange={handleChange}
+            placeholder="Enter vehicle ID"
             required
           />
         </div>
 
-        <button
-          type="button"
-          className="upload-btn"
-          onClick={() => document.getElementById("photo-upload").click()}
-        >
-          <span>📤 Upload photo(*jpg only)</span>
-          <input
-            id="photo-upload"
-            type="file"
-            accept=".jpg"
-            onChange={handlePhotoUpload}
-            style={{ display: "none" }}
-          />
-        </button>
-
-        <div className="form-buttons">
-          <button type="submit" className="submit-btn">
-            Submit
-          </button>
+        <div className="form-group">
+          <label>Vehicle Image (JPG only):</label>
+          <div className="image-upload-container">
+            <input
+              type="file"
+              accept=".jpg,.jpeg"
+              onChange={handleImageUpload}
+              className="image-upload-input"
+            />
+            {imagePreview && (
+              <div className="image-preview">
+                <img src={imagePreview} alt="Vehicle preview" />
+              </div>
+            )}
+          </div>
         </div>
+
+        <button type="submit">
+          {editingVehicle ? "Update Vehicle" : "Add Vehicle"}
+        </button>
       </form>
     </div>
   );

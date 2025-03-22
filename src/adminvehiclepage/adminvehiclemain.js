@@ -2,7 +2,7 @@ import "./adminvehicle.css";
 import React, { useState, useEffect } from "react";
 import { useNavigate, Routes, Route } from "react-router-dom";
 import Filter from "./filter";
-import Card from "./card";
+import VehicleCard from "./vehiclecard";
 import AddCar from "./addcar";
 import carData from "./cardata";
 
@@ -102,19 +102,16 @@ function Admincarspage() {
             <Filter onFilterChange={handleFilterChange} />
             <div className="card-container">
               {filteredVehicles.map((vehicle, index) => (
-                <Card
+                <VehicleCard
                   key={index}
-                  name={vehicle.name}
-                  image={vehicle.image}
-                  price={vehicle.price}
-                  availability={vehicle.availability}
-                  type={vehicle.type}
-                  rating={vehicle.rating}
-                  onEdit={() => handleEditVehicle(vehicle)}
-                  onDelete={() => handleDeleteVehicle(vehicle)}
+                  vehicle={vehicle}
+                  onEdit={handleEditVehicle}
+                  onDelete={handleDeleteVehicle}
                 />
               ))}
-              <Card isAddCard={true} onAdd={handleAddVehicle} />
+              <div className="card add-car-card" onClick={handleAddVehicle}>
+                <h2>+ Add Vehicle</h2>
+              </div>
             </div>
           </div>
         }
